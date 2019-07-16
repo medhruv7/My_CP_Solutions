@@ -32,3 +32,35 @@ signed main()
 	cout << val[n]%mod;
 }
 
+// Iterative Solution
+#include<bits/stdc++.h>
+using namespace std;
+
+#define int long long 
+
+const int N = 1e6+10;
+const int mod = 1e9 + 7;
+int ready[N];
+int val[N];
+
+signed main()
+{
+	ios_base::sync_with_stdio(false);
+	cin.tie(0);
+	int n;
+	cin >> n;
+	val[0] = 1;
+	for(int i = 1; i <= n; ++i)
+	{
+		for(auto x:{1,2,3,4,5,6})
+		{
+			if(i - x >= 0)
+			{
+				val[i] += val[i - x];
+			}
+			val[i] %= mod;
+		}
+	}
+	cout << val[n]%mod;
+}
+
