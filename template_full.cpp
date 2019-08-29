@@ -37,3 +37,8 @@ less_equal<int>,
 rb_tree_tag,
 tree_order_statistics_node_update>
 ordered_ms;
+
+signed main(){
+ios_base::sync_with_stdio(false);
+cin.tie(0);
+}
