@@ -104,12 +104,48 @@ public class Main {
         }
 
     }
-    
+
+    static int ans = 0;
+    static String s = null;
+    static boolean vis[][] = new boolean[7][7];
+
+    static boolean valid(int x, int y){
+        if(x >= 0 && y >= 0 && x < 7 && y < 7) return true;
+        return false;
+    }
+
+    static void solve(int ind, int x, int y){
+        if(!valid(x, y) || vis[x][y]){
+            return;
+        }
+        if(ind == s.length()){
+            if(x == 0 && y == 6){
+                ans++;
+            }
+            return;
+        }
+        vis[x][y] = true;
+        if(s.charAt(ind) != '?'){
+            if(s.charAt(ind) == 'U') solve(ind + 1, x, y - 1);
+            if(s.charAt(ind) == 'D') solve(ind + 1, x, y + 1);
+            if(s.charAt(ind) == 'L') solve(ind + 1, x - 1, y);
+            if(s.charAt(ind) == 'R') solve(ind + 1, x + 1, y);
+        }else{
+            solve(ind + 1, x - 1, y);
+            solve(ind + 1, x + 1, y);
+            solve(ind + 1, x, y + 1);
+            solve(ind + 1, x, y - 1);
+        }
+        vis[x][y] = false;
+    }
 
     public static void main(String[] args) {
         // Write Code Here
 
-        
+        s = reader.nextString();
+        solve(0, 0, 0);
+        writer.print(ans);
+
         writer.flush();
         writer.close();
     }
