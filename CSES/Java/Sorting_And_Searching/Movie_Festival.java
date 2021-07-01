@@ -1,5 +1,6 @@
 import java.util.*;
 import java.io.*;
+import java.time.chrono.Era;
 
 
 public class Main {
@@ -105,19 +106,37 @@ public class Main {
 
     }
     
-    static class Pair<T,U> {
-        T a;
-        U b;
-        Pair(T a, U b){
-            this.a = a;
-            this.b = b;
+    public static class Movie {
+        int start;
+        int end;
+        Movie(int start, int end){
+            this.start = start;
+            this.end = end;
         }
     }
-    
+
     public static void main(String[] args) {
         // Write Code Here
 
+        int n = reader.nextInt();
+        ArrayList<Movie> movies = new ArrayList<>();
+
+        for(int i = 0;i < n; ++i){
+            movies.add(new Movie(reader.nextInt(), reader.nextInt()));
+        }
+
+        Collections.sort(movies, (mov1, mov2) -> mov1.end - mov2.end);
         
+        int ans = 0;
+        int cur = -1;
+        for(Movie movie : movies){
+            if(movie.start >= cur){
+                ans++;
+                cur = movie.end;
+            }
+        }
+
+        writer.print(ans);
         writer.flush();
         writer.close();
     }

@@ -105,19 +105,19 @@ public class Main {
 
     }
     
-    static class Pair<T,U> {
-        T a;
-        U b;
-        Pair(T a, U b){
-            this.a = a;
-            this.b = b;
-        }
-    }
-    
+
     public static void main(String[] args) {
         // Write Code Here
 
-        
+        int n = reader.nextInt();
+        ArrayList<Integer> ar = new ArrayList<>();
+        for(int i = 0;i < n; ++i) ar.add(reader.nextInt());
+        Collections.sort(ar);
+        long ans = 0;
+        for(int i = 0;i < n; ++i){
+            ans += Math.abs(ar.get(i) - ar.get(n/2));
+        }
+        writer.print(ans);
         writer.flush();
         writer.close();
     }

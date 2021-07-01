@@ -117,7 +117,28 @@ public class Main {
     public static void main(String[] args) {
         // Write Code Here
 
-        
+        int n = reader.nextInt();
+        TreeSet<Integer> ts = new TreeSet<>();
+        HashMap<Integer, Integer> cnt = new HashMap<>();
+
+        int ans = 0;
+
+        for(int i = 0;i < n; ++i){
+            int x = reader.nextInt();
+            // find the ub of the element
+            Integer z = ts.higher(x);
+            if(z != null){
+                cnt.put(z, cnt.get(z) - 1);
+                if(cnt.get(z) == 0)
+                    ts.remove(z);
+            }else{
+                ans++;
+            }
+            ts.add(x);
+            cnt.put(x, cnt.getOrDefault(x, 0) + 1);
+        }
+
+        writer.print(ans);
         writer.flush();
         writer.close();
     }

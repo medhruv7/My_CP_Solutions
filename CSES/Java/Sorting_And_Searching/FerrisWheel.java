@@ -1,24 +1,24 @@
 import java.util.*;
 import java.io.*;
-
-
+ 
+ 
 public class Main {
-
+ 
     static int mod = (int) 1e9 + 7;
     static PrintWriter writer = new PrintWriter(System.out);
     static FastReader reader = new FastReader();
-
+ 
     static class FastReader {
         BufferedReader br;
         StringTokenizer st;
         Character c;
         int curCharIndex = 0;
         String currentString = null;
-
+ 
         public FastReader() {
             br = new BufferedReader(new InputStreamReader(System.in));
         }
-
+ 
         String nextString() {
             while(st == null || !st.hasMoreElements()){
                 try {
@@ -31,7 +31,7 @@ public class Main {
             currentString = st.nextToken();
             return currentString;
         }
-
+ 
         char nextChar(){
             Character ch = null;
  
@@ -51,46 +51,46 @@ public class Main {
  
             return ch;
         }
-
+ 
        int nextInt() {
            return Integer.parseInt(nextString());
        }
-
+ 
        long nextLong() {
            return Long.parseLong(nextString());
        }
-
+ 
        double nextDouble() {
            return Double.parseDouble(nextString());
        }
-
+ 
        
     }
-
+ 
     static class helper {
-
+ 
         public static int multiplyMod(int a, int b) {
             return (int) (((long)a * b)%mod);
         }
-
+ 
         public static <T> void incrementMap(T key, HashMap<T, Integer> hashMap){
             hashMap.put(key, (int) hashMap.getOrDefault(key, 0) + 1);
         }
-
+ 
         
         public static <T> void decrementMap(T key, HashMap<T, Integer> hashMap){
             hashMap.put(key, (int) hashMap.getOrDefault(key, 0) - 1);
         }
-
+ 
         public static String sortString(String s){
             char[] c = s.toCharArray();
             Arrays.sort(c);
             return new String(c);
         }
     }
-
+ 
     static class algorithms {
-
+ 
         public static int binpow(int b, int p) {
             int res = 1;
             while(p > 0){
@@ -102,22 +102,37 @@ public class Main {
             }
             return res;
         }
-
+ 
     }
     
-    static class Pair<T,U> {
-        T a;
-        U b;
-        Pair(T a, U b){
-            this.a = a;
-            this.b = b;
-        }
-    }
-    
+ 
     public static void main(String[] args) {
         // Write Code Here
-
-        
+ 
+        int n,x;
+        n = reader.nextInt();
+        x = reader.nextInt();
+ 
+        ArrayList<Integer> wt = new ArrayList<>();
+ 
+        for(int i = 0;i < n; ++i) wt.add(reader.nextInt());
+ 
+        Collections.sort(wt);
+        int left = 0, right = n - 1;
+        int ans = 0;
+        while(left < right){
+            if(wt.get(left) + wt.get(right) <= x){
+                left++;
+            }
+            right--;
+            ans++;
+        }
+        if(left == right){
+            ans++;
+        }
+ 
+        writer.print(ans);
+ 
         writer.flush();
         writer.close();
     }

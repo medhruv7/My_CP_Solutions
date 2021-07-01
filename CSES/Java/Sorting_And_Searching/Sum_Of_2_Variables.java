@@ -105,19 +105,44 @@ public class Main {
 
     }
     
-    static class Pair<T,U> {
-        T a;
-        U b;
-        Pair(T a, U b){
-            this.a = a;
-            this.b = b;
-        }
-    }
-    
     public static void main(String[] args) {
         // Write Code Here
 
+        int n = reader.nextInt();
+        int x = reader.nextInt();
+        HashMap<Integer,  HashSet<Integer>> cnt = new HashMap<>();
+        ArrayList<Integer> ar = new ArrayList<>();
+
+        for(int i = 0;i < n; ++i){
+            int y = reader.nextInt();
+            ar.add(y);
+            if(cnt.containsKey(y)){
+                cnt.get(y).add(i);
+            }else{
+                HashSet<Integer> hs = new HashSet<>();
+                hs.add(i);
+                cnt.put(y, hs);
+            }
+        }
         
+        int ans1 = -1,ans2 = -1;
+        for(int i = 0;i < n; ++i){
+            if(cnt.containsKey(x - ar.get(i))){
+                cnt.get(x - ar.get(i)).remove(i);
+                if(cnt.get(x - ar.get(i)).size() > 0){
+                    ans1 = i;
+                    ans2 = cnt.get(x - ar.get(i)).iterator().next();
+                    break;
+                }
+                cnt.get(x - ar.get(i)).add(i);
+            }
+        }
+
+        if(ans1 == -1){
+            writer.print("IMPOSSIBLE");
+        }else{
+            writer.print((ans1 + 1) + " " + (ans2 + 1));
+        }
         writer.flush();
         writer.close();
     }

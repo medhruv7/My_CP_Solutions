@@ -105,19 +105,39 @@ public class Main {
 
     }
     
-    static class Pair<T,U> {
-        T a;
-        U b;
-        Pair(T a, U b){
-            this.a = a;
-            this.b = b;
+    static class Event {
+        int time;
+        boolean arrive;
+
+        Event(int time, boolean arrive){
+            this.time = time;
+            this.arrive = arrive;
         }
     }
-    
     public static void main(String[] args) {
         // Write Code Here
 
-        
+        int n = reader.nextInt();
+
+        ArrayList<Event> events = new ArrayList<>();
+
+        for(int i = 0;i < n; ++i){
+            int x = reader.nextInt();
+            int y = reader.nextInt();
+            events.add(new Event(x, true));
+            events.add(new Event(y, false));
+        }
+
+        Collections.sort(events, ((event1, event2) -> event1.time - event2.time));
+        int ans = 0;
+        int cur = 0;
+        for(Event eve : events){
+            if(eve.arrive) cur++;
+            else cur--;
+            ans = Math.max(ans, cur);
+        }
+
+        writer.print(ans);
         writer.flush();
         writer.close();
     }

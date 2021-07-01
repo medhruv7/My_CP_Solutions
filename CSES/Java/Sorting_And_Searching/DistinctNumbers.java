@@ -105,19 +105,25 @@ public class Main {
 
     }
     
-    static class Pair<T,U> {
-        T a;
-        U b;
-        Pair(T a, U b){
-            this.a = a;
-            this.b = b;
-        }
-    }
-    
+
     public static void main(String[] args) {
         // Write Code Here
 
-        
+        int n = reader.nextInt();
+        ArrayList<Integer> a = new ArrayList<>();
+        for(int i = 0;i < n; ++i){
+            a.add(reader.nextInt());
+        }
+
+        Collections.sort(a);
+        int ans = 0;
+        for(int i = 0;i < n; ++i){
+            int z = a.get(i);
+            ans++;
+            while((i + 1 < n) && a.get(i + 1) == z)i++;
+        }
+
+        writer.print(ans);
         writer.flush();
         writer.close();
     }

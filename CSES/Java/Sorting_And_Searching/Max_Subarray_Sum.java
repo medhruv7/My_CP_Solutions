@@ -105,19 +105,31 @@ public class Main {
 
     }
     
-    static class Pair<T,U> {
-        T a;
-        U b;
-        Pair(T a, U b){
-            this.a = a;
-            this.b = b;
-        }
-    }
-    
+
     public static void main(String[] args) {
         // Write Code Here
 
-        
+        int n = reader.nextInt();
+        ArrayList<Integer> ar = new ArrayList<>();
+
+        for(int i = 0;i < n; ++i){
+            ar.add(reader.nextInt());
+        }
+
+        long cur = 0;
+        long ans = Long.MIN_VALUE;
+
+        for(int i = 0;i < n; ++i){
+            if(ar.get(i) > cur + ar.get(i)){
+                cur = ar.get(i);
+            }else{
+                cur += ar.get(i);
+            }
+            ans = Math.max(ans, cur);
+        }
+
+        writer.print(ans);
+
         writer.flush();
         writer.close();
     }

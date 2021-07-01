@@ -113,11 +113,23 @@ public class Main {
             this.b = b;
         }
     }
-    
+
     public static void main(String[] args) {
         // Write Code Here
 
-        
+        int n = reader.nextInt();
+        ArrayList<Pair<Integer, Integer>> ar = new ArrayList<>();
+        for(int i = 0;i < n; ++i) {
+            ar.add(new Pair(reader.nextInt(), i));
+        }
+
+        Collections.sort(ar, (pr1, pr2) -> pr1.a - pr2.a);
+        int ans = 1;
+        for(int i = 1;i < ar.size(); ++i){
+            if(ar.get(i).b < ar.get(i - 1).b) ans++;
+        }
+
+        writer.print(ans);
         writer.flush();
         writer.close();
     }

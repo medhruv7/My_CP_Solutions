@@ -117,7 +117,27 @@ public class Main {
     public static void main(String[] args) {
         // Write Code Here
 
-        
+        int n = reader.nextInt();
+        ArrayList<Integer> ar = new ArrayList<>();
+        for(int i = 0;i < n; ++i) ar.add(reader.nextInt());
+
+        int left = 0;
+        int right = 0;
+        int ans = 0;
+        HashMap<Integer, Integer> cnt = new HashMap<>();
+
+        while(right < n){
+            helper.incrementMap(ar.get(right), cnt);
+            while(left < right && cnt.containsKey(ar.get(right)) && cnt.get(ar.get(right)) > 1){
+                helper.decrementMap(ar.get(left), cnt);
+                left++;
+            }
+            ans = Math.max(ans, (right - left + 1));
+            right++;
+        }   
+
+        writer.print(ans);
+
         writer.flush();
         writer.close();
     }
