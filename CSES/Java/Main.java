@@ -105,19 +105,93 @@ public class Main {
 
     }
     
-    static class Pair<T,U> {
-        T a;
-        U b;
-        Pair(T a, U b){
-            this.a = a;
-            this.b = b;
+    static class DataStructures {
+
+        static class Pair<T,U> {
+            T a;
+            U b;
+            Pair(T a, U b){
+                this.a = a;
+                this.b = b;
+            }
+        }
+
+        static class Multiset<T> {
+            HashMap<T, Integer> cnt = new HashMap<>();
+            TreeSet<T> multiset = new TreeSet<>();
+
+            public void add(T ele){
+                multiset.add(ele);
+                cnt.put(ele, cnt.getOrDefault(ele, 0) + 1);
+            }
+
+            public void remove(T ele){
+                if(cnt.get(ele) > 1){
+                    cnt.put(ele, cnt.get(ele) - 1);
+                }else{
+                    cnt.put(ele, 0);
+                    multiset.remove(ele);
+                }
+            }
         }
     }
     
+    static class Event {
+        long tm;
+        boolean isArrive;
+        int ind;
+        Event(long tm, boolean isArrive, int ind){
+            this.tm = tm;
+            this.isArrive = isArrive;
+            this.ind = ind;
+        }
+    }
+    
+    public static class CompareCus implements Comparator<Event> {
+        public int compare(Event a, Event b) {
+            if(a.tm != b.tm) return (int) (a.tm - b.tm);
+            else{
+                if(a.isArrive) return -1;
+                else return 1; 
+            }
+        }
+    }
+
     public static void main(String[] args) {
         // Write Code Here
 
-        
+        int n = reader.nextInt();
+        ArrayList<Event> ar = new ArrayList<>();
+        for(int i = 0;i < n; ++i){
+            ar.add(new Event(reader.nextInt(), true, i));
+            ar.add(new Event(reader.nextInt(), false, i));
+        }
+
+        ArrayList<Integer> ans = new ArrayList<>();
+        for(int i = 0;i < n; ++i) ans.add(0);
+        Collections.sort(ar, new CompareCus());
+
+        int ansMax = 0;
+        HashSet<Integer> avail = new HashSet<>();
+
+        for(int i = 0;i < ar.size(); ++i){
+            if(ar.get(i).isArrive){
+                if(avail.size() == 0){
+                    ans.set(ar.get(i).ind, ++ansMax);
+                }else{
+                    ans.set(ar.get(i).ind, avail.iterator().next());
+                    avail.remove(avail.iterator().next());
+                }
+            }else{
+                avail.add(ans.get(ar.get(i).ind));
+            }
+        }
+
+        writer.println(ansMax);
+        for(Integer a : ans){
+            writer.print(a + " ");
+        }
+
         writer.flush();
         writer.close();
     }

@@ -105,19 +105,44 @@ public class Main {
 
     }
     
-    static class Pair<T,U> {
-        T a;
-        U b;
-        Pair(T a, U b){
-            this.a = a;
-            this.b = b;
+    static class DataStructures {
+
+        static class Pair<T,U> {
+            T a;
+            U b;
+            Pair(T a, U b){
+                this.a = a;
+                this.b = b;
+            }
+        }
+
+        static class Multiset<T> {
+            HashMap<T, Integer> cnt = new HashMap<>();
+            TreeSet<T> multiset = new TreeSet<>();
+
+            public void add(T ele){
+                multiset.add(ele);
+                cnt.put(ele, cnt.getOrDefault(ele, 0) + 1);
+            }
+
+            public void remove(T ele){
+                if(cnt.get(ele) > 1){
+                    cnt.put(ele, cnt.get(ele) - 1);
+                }else{
+                    cnt.put(ele, 0);
+                    multiset.remove(ele);
+                }
+            }
         }
     }
+    
+    
     
     public static void main(String[] args) {
         // Write Code Here
 
         
+
         writer.flush();
         writer.close();
     }
