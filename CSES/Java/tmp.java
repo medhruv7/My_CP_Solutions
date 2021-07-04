@@ -1,30 +1,30 @@
 import java.util.*;
 import java.io.*;
-
-
+ 
+ 
 public class Main {
-
+ 
     static int mod = (int) 1e9 + 7;
     static PrintWriter writer = new PrintWriter(System.out);
-    static Reader reader = new Reader();
-
-    static class Reader {
+    static FastReader reader = new FastReader();
+ 
+    static class FastReader {
         final private int BUFFER_SIZE = 1 << 16;
         private DataInputStream din;
         private byte[] buffer;
         private int bufferPointer, bytesRead;
  
-        public Reader()
+        public FastReader()
         {
             din = new DataInputStream(System.in);
             buffer = new byte[BUFFER_SIZE];
             bufferPointer = bytesRead = 0;
         }
  
-        public Reader(String file_name) throws IOException
+        public FastReader(String file_name) throws IOException
         {
             din = new DataInputStream(
-                new FileInputStream(file_name));
+                    new FileInputStream(file_name));
             buffer = new byte[BUFFER_SIZE];
             bufferPointer = bytesRead = 0;
         }
@@ -111,7 +111,7 @@ public class Main {
         private void fillBuffer() throws IOException
         {
             bytesRead = din.read(buffer, bufferPointer = 0,
-                                 BUFFER_SIZE);
+                    BUFFER_SIZE);
             if (bytesRead == -1)
                 buffer[0] = -1;
         }
@@ -130,33 +130,31 @@ public class Main {
             din.close();
         }
     }
-
+ 
     static class helper {
-
+ 
         public static int multiplyMod(int a, int b) {
             return (int) (((long)a * b)%mod);
         }
-
+ 
         public static <T> void incrementMap(T key, HashMap<T, Integer> hashMap){
             hashMap.put(key, (int) hashMap.getOrDefault(key, 0) + 1);
         }
-
-        
+ 
+ 
         public static <T> void decrementMap(T key, HashMap<T, Integer> hashMap){
             hashMap.put(key, (int) hashMap.getOrDefault(key, 0) - 1);
         }
-
+ 
         public static String sortString(String s){
             char[] c = s.toCharArray();
             Arrays.sort(c);
             return new String(c);
         }
-
-        
     }
-
+ 
     static class algorithms {
-
+ 
         public static int binpow(int b, int p) {
             int res = 1;
             while(p > 0){
@@ -168,11 +166,11 @@ public class Main {
             }
             return res;
         }
-
+ 
     }
-    
+ 
     static class DataStructures {
-
+ 
         static class Pair<T,U> {
             T a;
             U b;
@@ -181,16 +179,16 @@ public class Main {
                 this.b = b;
             }
         }
-
+ 
         static class Multiset<T> {
             HashMap<T, Integer> cnt = new HashMap<>();
             TreeSet<T> multiset = new TreeSet<>();
-
+ 
             public void add(T ele){
                 multiset.add(ele);
                 cnt.put(ele, cnt.getOrDefault(ele, 0) + 1);
             }
-
+ 
             public void remove(T ele){
                 if(cnt.get(ele) > 1){
                     cnt.put(ele, cnt.get(ele) - 1);
@@ -201,18 +199,64 @@ public class Main {
             }
         }
     }
-    
-    
-    public static class CompareCus<T> implements Comparator<T> {
-        public int compare(T a, T b) {
-            // implement the comparator here
+ 
+    static class Event {
+        int tm;
+        boolean isArrive;
+        int ind;
+        Event(int tm, boolean isArrive, int ind){
+            this.tm = tm;
+            this.isArrive = isArrive;
+            this.ind = ind;
         }
     }
-    
+ 
+    public static class CompareCus implements Comparator<Event> {
+        public int compare(Event a, Event b) {
+            if(a.tm != b.tm) return (int) (a.tm - b.tm);
+            else{
+                if(a.isArrive) return -1;
+                else return 1;
+            }
+        }
+    }
+ 
     public static void main(String[] args) throws IOException {
         // Write Code Here
-
-        writer.flush();
+ 
+        int n = reader.nextInt();
+        ArrayList<Event> ar = new ArrayList<>();
+        for(int i = 0;i < n; ++i){
+            ar.add(new Event(reader.nextInt(), true, i));
+            ar.add(new Event(reader.nextInt(), false, i));
+        }
+ 
+        int[] ans = new int[n];
+ 
+        Collections.sort(ar, new CompareCus());
+ 
+        int ansMax = 0;
+        PriorityQueue<Integer> avail = new PriorityQueue<>();
+ 
+        for(int i = 0;i < ar.size(); ++i){
+            if(ar.get(i).isArrive){
+                if(avail.size() == 0){
+                    ans[ar.get(i).ind] = ++ansMax;
+                }else{
+                    ans[ar.get(i).ind] = avail.peek();
+                    avail.poll();
+                }
+            }else{
+                avail.offer(ans[ar.get(i).ind]);
+            }
+        }
+ 
+        writer.println(ansMax);
+        for(int a : ans){
+            writer.print(a + " ");
+        }
+ 
+        reader.close();
         writer.close();
     }
 }
