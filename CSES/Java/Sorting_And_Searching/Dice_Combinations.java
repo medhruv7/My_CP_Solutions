@@ -1,13 +1,13 @@
 import java.util.*;
 import java.io.*;
-
-
+ 
+ 
 public class Main {
-
+ 
     static int mod = (int) 1e9 + 7;
     static PrintWriter writer = new PrintWriter(System.out);
     static Reader reader = new Reader();
-
+ 
     static class Reader {
         final private int BUFFER_SIZE = 1 << 16;
         private DataInputStream din;
@@ -130,41 +130,33 @@ public class Main {
             din.close();
         }
     }
-
+ 
     static class helper {
-
+ 
         public static int multiplyMod(int a, int b) {
-            a %= mod;
-            b %= mod;
             return (int) (((long)a * b)%mod);
         }
-
-        public static int addMod (int a, int b){
-            a %= mod;
-            b %= mod;
-            return (int)(((long)a + b)%mod);
-        }
-
+ 
         public static <T> void incrementMap(T key, HashMap<T, Integer> hashMap){
             hashMap.put(key, (int) hashMap.getOrDefault(key, 0) + 1);
         }
-
+ 
         
         public static <T> void decrementMap(T key, HashMap<T, Integer> hashMap){
             hashMap.put(key, (int) hashMap.getOrDefault(key, 0) - 1);
         }
-
+ 
         public static String sortString(String s){
             char[] c = s.toCharArray();
             Arrays.sort(c);
             return new String(c);
         }
-
+ 
         
     }
-
+ 
     static class algorithms {
-
+ 
         public static int binpow(int b, int p) {
             int res = 1;
             while(p > 0){
@@ -176,11 +168,11 @@ public class Main {
             }
             return res;
         }
-
+ 
     }
     
     static class DataStructures {
-
+ 
         static class Pair<T,U> {
             T a;
             U b;
@@ -189,16 +181,16 @@ public class Main {
                 this.b = b;
             }
         }
-
+ 
         static class Multiset<T> {
             HashMap<T, Integer> cnt = new HashMap<>();
             TreeSet<T> multiset = new TreeSet<>();
-
+ 
             public void add(T ele){
                 multiset.add(ele);
                 cnt.put(ele, cnt.getOrDefault(ele, 0) + 1);
             }
-
+ 
             public void remove(T ele){
                 if(cnt.get(ele) > 1){
                     cnt.put(ele, cnt.get(ele) - 1);
@@ -219,7 +211,23 @@ public class Main {
     
     public static void main(String[] args) throws IOException {
         // Write Code Here
+ 
+        // dp[i] -> number of ways to make this using any dice throw
+        int n = reader.nextInt();
+        int dp[] = new int[n + 1];
         
+        dp[0] = 1;
+        for(int i = 0;i <= n; ++i){
+            for(int j = 1;j <= 6; ++j){
+                if(i - j >= 0){
+                    // ways to make i using j (works bcoz we fill low i and then see how to make higher i using the lower i)
+                    dp[i] += dp[i - j];
+                    dp[i] %= mod;
+                }
+            }
+        }
+        
+        writer.print(dp[n]);
         writer.flush();
         writer.close();
     }

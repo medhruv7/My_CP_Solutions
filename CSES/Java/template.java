@@ -134,7 +134,15 @@ public class Main {
     static class helper {
 
         public static int multiplyMod(int a, int b) {
+            a %= mod;
+            b %= mod;
             return (int) (((long)a * b)%mod);
+        }
+
+        public static int addMod (int a, int b){
+            a %= mod;
+            b %= mod;
+            return (int)(((long)a + b)%mod);
         }
 
         public static <T> void incrementMap(T key, HashMap<T, Integer> hashMap){
@@ -203,11 +211,11 @@ public class Main {
     }
     
     
-    public static class CompareCus<T> implements Comparator<T> {
-        public int compare(T a, T b) {
-            // implement the comparator here
-        }
-    }
+    // public static class CompareCus<T> implements Comparator<T> {
+    //     public int compare(T a, T b) {
+    //         // implement the comparator here
+    //     }
+    // }
     
     public static void main(String[] args) throws IOException {
         // Write Code Here
