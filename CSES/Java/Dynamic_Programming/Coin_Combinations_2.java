@@ -220,6 +220,24 @@ public class Main {
     public static void main(String[] args) throws IOException {
         // Write Code Here
 
+        int n = reader.nextInt();
+        int x = reader.nextInt();
+
+        int a[] = new int[n + 1];
+        for(int i = 0;i < n; ++i) a[i] = reader.nextInt();
+        int dp[] = new int[x + 1];
+        dp[0] = 1;
+        // using this element at pos last position what all can i make
+        for(int i = 0;i < n; ++i){
+            for(int j = 1; j <= x; ++j){
+                if(j - a[i] >= 0){
+                    dp[j] += dp[j - a[i]];
+                    if(dp[j] > mod) dp[j] -= mod;
+                }
+            }
+        }
+
+        writer.print(dp[x]);
         writer.flush();
         writer.close();
     }
